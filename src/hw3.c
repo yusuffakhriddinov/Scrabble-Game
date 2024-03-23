@@ -61,12 +61,6 @@ GameState* initialize_game_state(const char *filename) {
 }
 
 GameState* place_tiles(GameState *game, int row, int col, char direction, const char *tiles, int *num_tiles_placed) {
-    (void)game;
-    (void)row;
-    (void)col;
-    (void)direction;
-    (void)tiles;
-    (void)num_tiles_placed;
 
     
     GameState *temp_struct = (GameState *)malloc(sizeof(GameState)); //temprorary
@@ -83,6 +77,8 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     }else if(direction!='H' && direction!='V'){
         return game;
     }
+    int i = 0;
+    int j = 0;
 
     // // - check existence of tile in word.txt
 
@@ -229,16 +225,17 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     }
 
     temp_struct->board = (char **)malloc(temp_struct->rows * sizeof(char *));
-    for (int i = 0; i<temp_struct->rows; i++){
+    
+    for (i = 0; i<temp_struct->rows; i++){
         temp_struct->board[i] = (char *)malloc(temp_struct->cols * sizeof(char));
-        for (int j = 0; j<temp_struct->cols; j++){
+        for (j = 0; j<temp_struct->cols; j++){
             temp_struct->board[i][j] = '.';
         }
     }
 
 
-    for(int i = 0; i<game->rows; i++){
-        for (int j = 0; j<game->cols; j++){
+    for(i = 0; i<game->rows; i++){
+        for (j = 0; j<game->cols; j++){
             temp_struct->board[i][j] = game->board[i][j];
                 
         }
@@ -247,15 +244,15 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     // stack_tiles
     temp_struct->stack_tiles = (int **)malloc(temp_struct->rows * sizeof(int *));
 
-    for (int i = 0; i<temp_struct->rows; i++){
+    for (i = 0; i<temp_struct->rows; i++){
         temp_struct->stack_tiles[i] = (int *)malloc(temp_struct->cols * sizeof(int));
-        for (int j = 0; j<temp_struct->cols; j++){
+        for (j = 0; j<temp_struct->cols; j++){
             temp_struct->stack_tiles[i][j] = 0;
         }
     }
 
-    for(int i = 0; i<game->rows; i++){
-        for (int j = 0; j<game->cols; j++){
+    for(i = 0; i<game->rows; i++){
+        for (j = 0; j<game->cols; j++){
             temp_struct->stack_tiles[i][j] = game->stack_tiles[i][j];
             
         }   
@@ -270,7 +267,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     //Horizontal
     if (direction=='H' || direction=='h'){ 
         
-        for(int i = 0; i<length; i++){
+        for(i = 0; i<length; i++){
             if(tiles[i]==' '){
                 continue;
             }else{
@@ -285,7 +282,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     //Vertical
     if (direction=='V' || direction=='v'){ 
 
-        for(int i = 0; i<length; i++){
+        for(i = 0; i<length; i++){
             if(tiles[i]==' '){
                 continue;
             }else{
