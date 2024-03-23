@@ -138,63 +138,62 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     // fclose(words_file);
 
 
-    // // - check if it is first word
-    // int first_word = 1;
+    // - check if it is first word
+    int first_word = 1;
 
-    // for(int i = 0; i<game->rows; i++){
-    //     for (int j = 0; j<game->cols; j++){
-    //         if (game->stack_tiles[i][j]>0){
-    //             first_word = 0;
-    //         }
-    //     }
-    // }
+    for(i = 0; i<game->rows; i++){
+        for (j = 0; j<game->cols; j++){
+            if (game->stack_tiles[i][j]>0){
+                first_word = 0;
+            }
+        }
+    }
 
-    // if (first_word==1){
-    //     if (length<2){
-    //         return game;
-    //     }
-    // }else{
+    if (first_word==1){
+        if (length<2){
+            return game;
+        }
+    }else{
 
-    //     if (direction=='H' || direction=='h'){
-    //     int valid1 = 0;
-    //     int valid2 = 0;
-    //     for (int i = 0; i<length && col+i<game->cols; i++){
-    //         if (game->stack_tiles[row][col+i]!=0){
-    //             valid1=1;
-    //         }
-    //         if(game->board[row][col+i]!=tiles[i]){
-    //             valid2=1;
-    //         }
-    //     }
+        if (direction=='H' || direction=='h'){
+            int valid1 = 0;
+            int valid2 = 0;
+            for (i = 0; i<length && col+i<game->cols; i++){
+                if (game->stack_tiles[row][col+i]!=0){
+                    valid1=1;
+                }
+                if(game->board[row][col+i]!=tiles[i]){
+                    valid2=1;
+                }
+            }
 
+            if(valid1==0){
+                return game;
+            }else if(valid2==0){
+                return game;
+            }
+        }
 
-    //     if(valid1==0){
-    //         return game;
-    //     }else if(valid2==0){
-    //         return game;
-    //     }
-    // }
+        if (direction=='V' || direction=='v'){
+            int valid1 = 0;
+            int valid2 = 0;
+            for (i = 0; i<length && row+i<game->rows; i++){
+                if (game->stack_tiles[row+i][col]!=0){
+                    valid1=1;
+                }
+                if(game->board[row+i][col]!=tiles[i]){
+                    valid2=1;
+                }
+            }
 
-    // if (direction=='V' || direction=='v'){
-    //     int valid1 = 0;
-    //     int valid2 = 0;
-    //     for (int i = 0; i<length && row+i<game->rows; i++){
-    //         if (game->stack_tiles[row+i][col]!=0){
-    //             valid1=1;
-    //         }
-    //         if(game->board[row+i][col]!=tiles[i]){
-    //             valid2=1;
-    //         }
-    //     }
+            if(valid1==0){
+                return game;
+            }else if(valid2==0){
+                return game;
+            }
+        }
 
-    //     if(valid1==0){
-    //         return game;
-    //     }else if(valid2==0){
-    //         return game;
-    //     }
-    // }
-
-    // }
+    }
 
 
     
@@ -323,6 +322,7 @@ void free_game_state(GameState *game) {
     while(game->top != 0) {
         game = undo_place_tiles(game);
     }
+    
     
     for (int i = 0; i < game->rows; i++) {
         free(game->board[i]);
