@@ -18,8 +18,8 @@ GameState* initialize_game_state(const char *filename) {
     result->items[result->top] = result;
 
     char ch;
-    int rows;
-    int cols;
+    int rows = 0;
+    int cols = 0;
     while((ch = fgetc(file)) != EOF){
         if (ch == '\n') {
             rows++;
@@ -298,7 +298,6 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     }
     
     *num_tiles_placed = placed;
-    printf("%d\n", *num_tiles_placed);
 
     
     game = temp_struct;
