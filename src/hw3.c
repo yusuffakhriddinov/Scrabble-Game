@@ -189,7 +189,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
                 
             }
             
-            if (game->stack_tiles[row+i][col]!=0){
+            if (row+i<game->rows && game->stack_tiles[row+i][col]!=0){
                 valid1=1;
             }
 
