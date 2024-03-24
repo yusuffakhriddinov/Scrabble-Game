@@ -154,7 +154,6 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             return game;
         }
     }else{
-
         if (direction=='H' || direction=='h'){
             int valid1 = 0;
             int valid2 = 0;
@@ -177,6 +176,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
         if (direction=='V' || direction=='v'){
             int valid1 = 0;
             int valid2 = 0;
+            
             for (i = 0; i<length && row+i<game->rows; i++){
                 if (game->stack_tiles[row+i][col]!=0){
                     valid1=1;
@@ -184,6 +184,13 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
                 if(game->board[row+i][col]!=tiles[i]){
                     valid2=1;
                 }
+                
+                
+                
+            }
+            
+            if (game->stack_tiles[row+i][col]!=0){
+                valid1=1;
             }
 
             if(valid1==0){
