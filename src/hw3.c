@@ -80,62 +80,62 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     int i = 0;
     int j = 0;
 
-    // - check existence of tile in word.txt
+    // // - check existence of tile in word.txt
 
-    int tile_exist = 0;
+    // int tile_exist = 0;
 
-    char word[100];
-    char input_word[8];
-    int empty_space = 0;
+    // char word[100];
+    // char input_word[8];
+    // int empty_space = 0;
 
-    if (direction=='H' || direction=='h'){
-        for(i = 0; i<length; i++){
-            if (tiles[i]==' '){
-                input_word[i] = game->board[row][col+i];
-                empty_space=1;
-            }else{
-                input_word[i] = tiles[i];
-            }
-        }
-    }
+    // if (direction=='H' || direction=='h'){
+    //     for(i = 0; i<length; i++){
+    //         if (tiles[i]==' '){
+    //             input_word[i] = game->board[row][col+i];
+    //             empty_space=1;
+    //         }else{
+    //             input_word[i] = tiles[i];
+    //         }
+    //     }
+    // }
 
-    if (direction=='V' || direction=='v'){
-        for(i = 0; i<length; i++){
-            if (tiles[i]==' '){
-                input_word[i] = game->board[row+i][col];
-                empty_space=1;
-            }else{
-                input_word[i] = tiles[i];
-            }
-        }
+    // if (direction=='V' || direction=='v'){
+    //     for(i = 0; i<length; i++){
+    //         if (tiles[i]==' '){
+    //             input_word[i] = game->board[row+i][col];
+    //             empty_space=1;
+    //         }else{
+    //             input_word[i] = tiles[i];
+    //         }
+    //     }
         
-    }
+    // }
     
     
 
-    FILE *words_file = fopen("./tests/words.txt", "r");
+    // FILE *words_file = fopen("./tests/words.txt", "r");
 
-    while (fscanf(words_file, "%s", word) != EOF) {
-        // Process each word
-        if (empty_space==1){
-            if(strcasecmp(input_word, word) == 0){
-                tile_exist = 1;
-            }
-        }else{
-            if(strcasecmp(tiles, word) == 0){
-                tile_exist = 1;
-            }
-        }
+    // while (fscanf(words_file, "%s", word) != EOF) {
+    //     // Process each word
+    //     if (empty_space==1){
+    //         if(strcasecmp(input_word, word) == 0){
+    //             tile_exist = 1;
+    //         }
+    //     }else{
+    //         if(strcasecmp(tiles, word) == 0){
+    //             tile_exist = 1;
+    //         }
+    //     }
         
-    }
+    // }
 
 
-    if(tile_exist==0){
-        printf("here\n");
-        return game;
-    }
+    // if(tile_exist==0){
+    //     printf("here\n");
+    //     return game;
+    // }
 
-    fclose(words_file);
+    // fclose(words_file);
 
 
     // - check if it is first word
