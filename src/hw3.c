@@ -84,12 +84,12 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     int i = 0;
     int j = 0;
 
-    // // - check existence of tile in word.txt
+    // - check existence of tile in word.txt
 
     int tile_exist = 0;
 
-    char word[100] = {0};  // Initialize with zeros
-    char input_word[100] = {0};  // Initialize with zeros
+    char word[100] = {0};  
+    char input_word[100] = {0}; 
     int empty_space = 0;
     (void) empty_space;
 
@@ -127,7 +127,6 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             l++;
         }
         
-        printf("%s\n", input_word);
     }
 
     if (direction=='V' || direction=='v'){
@@ -162,8 +161,6 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             l++;
         }
 
-        
-
     }
     
     
@@ -171,16 +168,14 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     FILE *words_file = fopen("./tests/words.txt", "r");
 
     while (fscanf(words_file, "%s", word) != EOF) {
-        // Process each word
         if(strcasecmp(input_word, word) == 0){
             tile_exist = 1;
         }
-        
     }
 
     
     if(tile_exist==0){
-        printf("thus");
+        *num_tiles_placed = placed;
         return game;
     }
 
@@ -200,6 +195,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     if (first_word==1){
         if (length<2){
+            *num_tiles_placed = placed;
             return game;
         }
     }else{
@@ -226,8 +222,10 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             }
 
             if(valid1==0){
+                *num_tiles_placed = placed;
                 return game;
             }else if(valid2==0){
+                *num_tiles_placed = placed;
                 return game;
             }
         }
@@ -255,8 +253,10 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             }
 
             if(valid1==0){
+                *num_tiles_placed = placed;
                 return game;
             }else if(valid2==0){
+                *num_tiles_placed = placed;
                 return game;
             }
         }
@@ -332,8 +332,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     
 
     //Horizontal
-    if (direction=='H' || direction=='h'){ 
-        
+    if (direction=='H' || direction=='h'){    
         for(i = 0; i<length; i++){
             if(tiles[i]==' '){
                 continue;
@@ -341,14 +340,12 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
                 temp_struct->board[row][col+i] = tiles[i];
                 temp_struct->stack_tiles[row][col+i]++;
                 placed++;
-            }
-            
+            }    
         }
     }
 
     //Vertical
     if (direction=='V' || direction=='v'){ 
-
         for(i = 0; i<length; i++){
             if(tiles[i]==' '){
                 continue;
@@ -356,8 +353,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
                 temp_struct->board[row+i][col] = tiles[i];
                 temp_struct->stack_tiles[row+i][col]++;
                 placed++;
-            }
-            
+            } 
         }
     }
     
@@ -370,8 +366,6 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     game->top++;
     game->items[game->top] = game;
-    
-
     
     
     return game;
