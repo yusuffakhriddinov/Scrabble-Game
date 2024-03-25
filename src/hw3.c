@@ -88,68 +88,82 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     int tile_exist = 0;
 
-    char word[100];
-    char input_word[100];
+    char word[100] = {0};  // Initialize with zeros
+    char input_word[100];  // Initialize with zeros
     int empty_space = 0;
     (void) empty_space;
 
-    if (direction=='H' || direction=='h'){
-        i = 0;
-        while (i <= col) {
+    if (direction == 'H' || direction == 'h') {
+
+        int l = 0;
+        
+        while (i < col) {
             if (game->board[row][i] != '.') {
-                input_word[i] = game->board[row][i];
+                input_word[l] = game->board[row][i];
+                l++;
             }
             i++;
         }
-
+        
         int k = 0;
         int n = 0;
-        for (k = i - 1; k < i + length; k++) {
+        for (k = 0; k < length; k++) {
             if (tiles[n] == ' ') {
-                input_word[col + n] = game->board[row][col + n];
+                input_word[l] = game->board[row][col + n];
                 empty_space = 1;
             } else {
-                input_word[col + n] = tiles[n];
+                input_word[l] = tiles[n];
             }
             n++;
+            l++;
+            
         }
 
+        
+        
         while (col + n < game->cols && game->board[row][col + n] != '.') {
-            input_word[col + n] = game->board[row][col + n];
+            input_word[l] = game->board[row][col + n];
             n++;
+            l++;
         }
+        
+
     }
 
     if (direction=='V' || direction=='v'){
-        i = 0;
-        while (i <= row) {
+        int l = 0;
+
+         while (i < row) {
             if (game->board[i][col] != '.') {
-                input_word[i] = game->board[i][col];
+                input_word[l] = game->board[i][col];
+                l++;
             }
             i++;
         }
 
         int k = 0;
         int n = 0;
-        for (k = i - 1; k < i + length; k++) {
+        for (k = 0; k < length; k++) {
             if (tiles[n] == ' ') {
-                input_word[row + n] = game->board[row + n][col];
+                input_word[l] = game->board[row + n][col];
                 empty_space = 1;
             } else {
-                input_word[row + n] = tiles[n];
+                input_word[l] = tiles[n];
             }
             n++;
+            l++;
         }
 
         while (row + n<game->rows && game->board[row + n][col]!='.' ){
-            input_word[n] = game->board[row+n][col];
+            input_word[l] = game->board[row+n][col];
             n++;
+            l++;
         }
 
     }
+    printf("%s\n", input_word);
     
     
-
     FILE *words_file = fopen("./tests/words.txt", "r");
 
     while (fscanf(words_file, "%s", word) != EOF) {
@@ -162,6 +176,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     
     if(tile_exist==0){
+        printf("thus");
         return game;
     }
 
