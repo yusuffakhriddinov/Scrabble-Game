@@ -89,7 +89,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     int tile_exist = 0;
 
     char word[100] = {0};  // Initialize with zeros
-    char input_word[100];  // Initialize with zeros
+    char input_word[100] = {0};  // Initialize with zeros
     int empty_space = 0;
     (void) empty_space;
 
@@ -150,18 +150,21 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             } else {
                 input_word[l] = tiles[n];
             }
+        
             n++;
             l++;
         }
-
+        
+        
         while (row + n<game->rows && game->board[row + n][col]!='.' ){
             input_word[l] = game->board[row+n][col];
             n++;
             l++;
         }
 
+
     }
-    printf("%s\n", input_word);
+    
     
     
     FILE *words_file = fopen("./tests/words.txt", "r");
