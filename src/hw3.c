@@ -84,27 +84,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     int i = 0;
     int j = 0;
 
-    // - check are the any similar letters
-
-     if (direction == 'H' || direction == 'h') {
-        for (i = 0; i<length; i++){
-            if (tiles[i]==game->board[row][col+i]){
-                *num_tiles_placed = placed;
-                return game;
-            }
-        }
-        i = 0;
-     }
-
-     if (direction == 'V' || direction == 'v') {
-        for (i = 0; i<length; i++){
-            if (tiles[i]==game->board[row + i][col]){
-                *num_tiles_placed = placed;
-                return game;
-            }
-        }
-        i = 0;
-     }
+    
 
     // - check existence of tile in word.txt
 
@@ -286,7 +266,28 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     }
 
 
-    
+    // - check are the any similar letters
+
+     if (direction == 'H' || direction == 'h') {
+        int b = 0;
+        for (b = 0; i<length; b++){
+            if (tiles[b]==game->board[row][col+b]){
+                *num_tiles_placed = placed;
+                return game;
+            }
+        }
+     }
+
+     if (direction == 'V' || direction == 'v') {
+        int b = 0;
+        for (b = 0; b<length; b++){
+            if (tiles[b]==game->board[row + b][col]){
+                *num_tiles_placed = placed;
+                return game;
+            }
+        }
+        
+     }
 
     
     //board
