@@ -98,7 +98,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
         int l = 0;
         
         while (i < col) {
-            if (game->board[row][i] != '.') {
+            if (game->board[row][i] != '.' && game->board[row][i+1] != '.') {
                 input_word[l] = game->board[row][i];
                 l++;
             }
@@ -127,14 +127,14 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             l++;
         }
         
-
+        printf("%s\n", input_word);
     }
 
     if (direction=='V' || direction=='v'){
         int l = 0;
 
          while (i < row) {
-            if (game->board[i][col] != '.') {
+            if (game->board[i][col] != '.' && game->board[i+1][col] != '.') {
                 input_word[l] = game->board[i][col];
                 l++;
             }
@@ -162,6 +162,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             l++;
         }
 
+        
 
     }
     
