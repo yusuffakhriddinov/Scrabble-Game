@@ -265,30 +265,6 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     }
 
-
-    // - check are the any similar letters
-
-    //  if (direction == 'H' || direction == 'h') {
-    //     int b = 0;
-    //     for (b = 0; b<length; b++){
-    //         if (tiles[b]==game->board[row][col+b]){
-    //             *num_tiles_placed = placed;
-    //             return game;
-    //         }
-    //     }
-    //  }
-
-    //  if (direction == 'V' || direction == 'v') {
-    //     int b = 0;
-    //     for (b = 0; b<length; b++){
-    //         if (tiles[b]==game->board[row + b][col]){
-    //             *num_tiles_placed = placed;
-    //             return game;
-    //         }
-    //     }
-        
-    //  }
-
     
     //board
     if (direction=='H' || direction=='h'){
@@ -352,6 +328,42 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     temp_struct->top = game->top;
     temp_struct->items[temp_struct->top] = game;
 
+    // full covering check
+    if (direction=='H'){
+        int complete_pos = 1;
+        if ((int)strlen(input_word) == length){
+            for (int r = 0; r < length; r++){
+                if(temp_struct->board[row][col+r] == '.'){
+                    complete_pos = 0;
+                }
+            }
+            if (complete_pos==1){
+                *num_tiles_placed = 0;
+                return game;
+            }
+        }
+
+    }
+    if (direction=='V'){
+        int complete_pos = 1;
+        if ((int)strlen(input_word) == length){
+            for (int r = 0; r < length; r++){
+                if((int)strlen(input_word) == length || temp_struct->board[row+r][col] == '.'){
+                    complete_pos = 0;
+                }
+            }
+            if (complete_pos==1){
+                *num_tiles_placed = 0;
+                return game;
+            }
+        }
+
+    }
+
+    // Bottomline letter change check
+
+    
+
     
 
     //Horizontal
@@ -361,13 +373,14 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
                 continue;
             }else{
                 if (tiles[i]==temp_struct->board[row][col+i]){
-                    *num_tiles_placed = placed;
+                    *num_tiles_placed = 0;
+                    printf("%d", *num_tiles_placed);
                     return game;
                 }
                 temp_struct->board[row][col+i] = tiles[i];
 
                 if(temp_struct->stack_tiles[row][col+i]>=5){
-                    *num_tiles_placed = placed;
+                    *num_tiles_placed = 0;
                     return game;
                 }else{
                     temp_struct->stack_tiles[row][col+i]++;
@@ -385,13 +398,13 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
                 continue;
             }else{
                 if (tiles[i]==temp_struct->board[row+i][col]){
-                    *num_tiles_placed = placed;
+                    *num_tiles_placed = 0;
                     return game;
                 }
                 temp_struct->board[row+i][col] = tiles[i];
 
                 if (temp_struct->stack_tiles[row+i][col]>=5){
-                    *num_tiles_placed = placed;
+                    *num_tiles_placed = 0;
                     return game;
                 }else{
                     temp_struct->stack_tiles[row+i][col]++;
