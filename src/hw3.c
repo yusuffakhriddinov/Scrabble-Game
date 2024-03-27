@@ -133,9 +133,9 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     if (direction=='V' || direction=='v'){
         int l = 0;
-
+        i=0;
          while (i < row) {
-            if (game->board[i][col] != '.' && game->board[i+1][col] != '.') {
+            if ((game->board[i][col] != '.' && game->board[i+1][col]!='.') || i+1==row) { // dropped half
                 input_word[l] = game->board[i][col];
                 l++;
             }
@@ -157,7 +157,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
         }
         
         
-        while (row + n<game->rows && game->board[row + n][col]!='.' ){
+        while (row + n<game->rows && game->board[row + n][col]!='.' ){ 
             input_word[l] = game->board[row+n][col];
             n++;
             l++;
@@ -165,6 +165,14 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     }
     
+    char temp_word[100] ={0};
+    if (input_word[0]=='.'){
+        for (i = 0, j = 1; j<=length; j++){
+            temp_word[i] = input_word[j];
+            i++;
+        }
+        strcpy(input_word, temp_word);
+    }
     
     
     FILE *words_file = fopen("./tests/words.txt", "r");
@@ -177,6 +185,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     
     if(tile_exist==0){
+        
         *num_tiles_placed = placed;
         return game;
     }
@@ -206,7 +215,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             int valid2 = 0;
             i = 0;
 
-            if (col-1>game->cols && game->stack_tiles[row][col-1]!=0){
+            if (col>0 && game->stack_tiles[row][col-1]!=0){
                 valid1=1;
             }
 
@@ -237,12 +246,14 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             int valid2 = 0;
             i = 0;
 
-            if (row-1>game->rows && game->stack_tiles[row-1][col]!=0){
+            if (row>0 && game->stack_tiles[row-1][col]!=0){//!=
+            
                 valid1=1;
             }
 
             for (i = 0; i<length && row+i<game->rows; i++){
                 if (game->stack_tiles[row+i][col]!=0){
+                    
                     valid1=1;
                 }
                 if(game->board[row+i][col]!=tiles[i]){
@@ -251,10 +262,12 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             }
             
             if (row+i<game->rows && game->stack_tiles[row+i][col]!=0){
+                
                 valid1=1;
             }
 
             if(valid1==0){
+                
                 *num_tiles_placed = placed;
                 return game;
             }else if(valid2==0){
@@ -360,9 +373,6 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     }
 
-    // Bottomline letter change check
-
-    
 
     
 
@@ -414,6 +424,52 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             } 
         }
     }
+
+    // Bottomline letter change check
+
+    // for (int r = 0; r < length; r++) {
+    //     int temp_row = row;
+    //     int temp_col = col + r;
+    //     char temp_input_word[100] = {0}; // Initialize temp_input_word
+
+    //     if (temp_row + 1 < temp_struct->rows && temp_struct->board[temp_row + 1][temp_col] == '.' &&
+    //         temp_row - 1 >= 0 && temp_struct->board[temp_row - 1][temp_col] != '.') {
+
+    //         int v = 0;
+    //         int h = 0;
+            
+    //         // Iterate until v is less than the number of rows in temp_struct->board
+    //         while (v <= temp_row) {
+    //             if (temp_struct->board[v][temp_col] != '.') {
+    //                 temp_input_word[h] = temp_struct->board[v][temp_col];
+    //                 h++;
+    //             }
+    //             v++;
+    //         }
+
+    //         // Process temp_input_word as needed
+    //         // For example, print it:
+            
+    //     }
+    //     int temp_tile_exist = 0;
+    //     FILE *temp_words_file = fopen("./tests/words.txt", "r");
+
+    //     while (fscanf(temp_words_file, "%s", word) != EOF) {
+    //         if(strcasecmp(temp_input_word, word) == 0){
+    //             temp_tile_exist = 1;
+    //         }
+    //     }
+
+        
+    //     if(temp_tile_exist==0){
+    //         *num_tiles_placed = 0;
+    //         return game;
+    //     }
+
+    //     fclose(temp_words_file);
+
+    // }
+    
     
     *num_tiles_placed = placed;
 
