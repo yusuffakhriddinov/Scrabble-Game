@@ -98,13 +98,22 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     if (direction == 'H' || direction == 'h') {
 
         int l = 0;
-        
-        while (i < col) {
-            if (game->board[row][i] != '.' && game->board[row][i+1] != '.') {
-                input_word[l] = game->board[row][i];
-                l++;
+        i=1;
+        int m = 0;
+        char temp_text[100] ={0};
+         while (i <= col) {
+            if (game->board[row][col-i] != '.') { // dropped half
+                temp_text[m] = game->board[row][col-i];
+            }else{
+                break;
             }
             i++;
+            m++;
+            
+        }
+        for(i = strlen(temp_text)-1; i>=0; i--){
+            input_word[l] = temp_text[i];
+            l++;
         }
         
         int k = 0;
@@ -199,7 +208,6 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
         strcpy(input_word, temp_word);
     }
     
-    
     FILE *words_file = fopen("./tests/words.txt", "r");
 
     while (fscanf(words_file, "%s", word) != EOF) {
@@ -210,7 +218,6 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     
     if(tile_exist==0){
-        
         *num_tiles_placed = placed;
         return game;
     }
@@ -231,6 +238,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 
     if (first_word==1){
         if (length<2){
+            
             *num_tiles_placed = placed;
             return game;
         }
@@ -240,7 +248,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             int valid2 = 0;
             i = 0;
 
-            if (col-1>game->cols && game->stack_tiles[row][col-1]!=0){
+            if (col>0 && game->stack_tiles[row][col-1]!=0){ //col-1>game->cols
                 valid1=1;
             }
 
@@ -261,6 +269,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
                 *num_tiles_placed = placed;
                 return game;
             }else if(valid2==0){
+                
                 *num_tiles_placed = placed;
                 return game;
             }
@@ -375,7 +384,8 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
                     complete_pos = 0;
                 }
             }
-            if (complete_pos==1){
+            if (complete_pos==1 && length>1){
+                
                 *num_tiles_placed = 0;
                 return game;
             }
@@ -390,7 +400,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
                     complete_pos = 0;
                 }
             }
-            if (complete_pos==1){
+            if (complete_pos==1 && length>1){
                 *num_tiles_placed = 0;
                 return game;
             }
