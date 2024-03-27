@@ -111,6 +111,10 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
         int n = 0;
         for (k = 0; k < length; k++) {
             if (tiles[n] == ' ') {
+                if(game->board[row][col + n]=='.'){
+                    *num_tiles_placed = placed;
+                    return game;
+                }
                 input_word[l] = game->board[row][col + n];
                 empty_space = 1;
             } else {
@@ -146,7 +150,12 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
         int n = 0;
         for (k = 0; k < length; k++) {
             if (tiles[n] == ' ') {
+                if(game->board[row + n][col]=='.'){
+                    *num_tiles_placed = placed;
+                    return game;
+                }
                 input_word[l] = game->board[row + n][col];
+                
                 empty_space = 1;
             } else {
                 input_word[l] = tiles[n];
@@ -215,7 +224,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             int valid2 = 0;
             i = 0;
 
-            if (col>0 && game->stack_tiles[row][col-1]!=0){
+            if (col-1>game->cols && game->stack_tiles[row][col-1]!=0){
                 valid1=1;
             }
 
