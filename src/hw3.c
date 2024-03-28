@@ -526,30 +526,40 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
 }
 
 GameState* undo_place_tiles(GameState *game) {
-
-    if (game->top==0){
+    if (game->top == 0) {
         return game->items[0];
     }
+    GameState *previous_state = game->items[game->top - 1];
     
+    // Free board and stack_tiles for the current state
+    for (int i = 0; i < game->rows; i++) {
+        free(game->board[i]);
+        free(game->stack_tiles[i]);
+    }
+    free(game->board);
+    free(game->stack_tiles);
     
-    return game->items[--game->top];
+    // Free the current state itself
+    free(game);
+    
+    return previous_state;
 }
 
 void free_game_state(GameState *game) {
     while (game->top != 0) {
-        GameState *next_state = undo_place_tiles(game);
+        GameState *previous_state = undo_place_tiles(game);
         
-        // Free the memory associated with the current state
-        for (int i = 0; i < game->rows; i++) {
-            free(game->board[i]);
-            free(game->stack_tiles[i]);
-        }
-        free(game->board);
-        free(game->stack_tiles);
-        free(game);
+
+        // for (int i = 0; i < game->rows; i++) {
+        //     free(game->board[i]);
+        //     free(game->stack_tiles[i]);
+        // }
+        // free(game->board);
+        // free(game->stack_tiles);
+        // free(game);
         
         // Move to the next state
-        game = next_state;
+        game = previous_state;
     }
 
     // Free the memory associated with the final state
