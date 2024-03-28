@@ -310,6 +310,7 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     // Placing part
 
     GameState *temp_struct = (GameState *)malloc(sizeof(GameState)); //temprorary
+    
     //board
     if (direction=='H' || direction=='h'){
         temp_struct->rows = game->rows;
@@ -389,6 +390,13 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             
             if (complete_pos==1){
                 *num_tiles_placed = 0;
+                for (i = 0; i < temp_struct->rows; i++) {
+                    free(temp_struct->board[i]);
+                    free(temp_struct->stack_tiles[i]);
+                }
+                free(temp_struct->board);
+                free(temp_struct->stack_tiles);
+                free(temp_struct);
                 return game;
             }
         }
@@ -404,6 +412,13 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             }
             if (complete_pos==1 && length>1){
                 *num_tiles_placed = 0;
+                for (i = 0; i < temp_struct->rows; i++) {
+                    free(temp_struct->board[i]);
+                    free(temp_struct->stack_tiles[i]);
+                }
+                free(temp_struct->board);
+                free(temp_struct->stack_tiles);
+                free(temp_struct);
                 return game;
             }
         }
@@ -421,13 +436,27 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             }else{
                 if (tiles[i]==temp_struct->board[row][col+i]){
                     *num_tiles_placed = 0;
-                    printf("%d", *num_tiles_placed);
+                    
+                    for (i = 0; i < temp_struct->rows; i++) {
+                        free(temp_struct->board[i]);
+                        free(temp_struct->stack_tiles[i]);
+                    }
+                    free(temp_struct->board);
+                    free(temp_struct->stack_tiles);
+                    free(temp_struct);
                     return game;
                 }
                 temp_struct->board[row][col+i] = tiles[i];
 
                 if(temp_struct->stack_tiles[row][col+i]>=5){
                     *num_tiles_placed = 0;
+                    for (i = 0; i < temp_struct->rows; i++) {
+                        free(temp_struct->board[i]);
+                        free(temp_struct->stack_tiles[i]);
+                    }
+                    free(temp_struct->board);
+                    free(temp_struct->stack_tiles);
+                    free(temp_struct);
                     return game;
                 }else{
                     temp_struct->stack_tiles[row][col+i]++;
@@ -446,12 +475,26 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
             }else{
                 if (tiles[i]==temp_struct->board[row+i][col]){
                     *num_tiles_placed = 0;
+                    for (i = 0; i < temp_struct->rows; i++) {
+                        free(temp_struct->board[i]);
+                        free(temp_struct->stack_tiles[i]);
+                    }
+                    free(temp_struct->board);
+                    free(temp_struct->stack_tiles);
+                    free(temp_struct);
                     return game;
                 }
                 temp_struct->board[row+i][col] = tiles[i];
 
                 if (temp_struct->stack_tiles[row+i][col]>=5){
                     *num_tiles_placed = 0;
+                    for (i = 0; i < temp_struct->rows; i++) {
+                        free(temp_struct->board[i]);
+                        free(temp_struct->stack_tiles[i]);
+                    }
+                    free(temp_struct->board);
+                    free(temp_struct->stack_tiles);
+                    free(temp_struct);
                     return game;
                 }else{
                     temp_struct->stack_tiles[row+i][col]++;
