@@ -378,14 +378,19 @@ GameState* place_tiles(GameState *game, int row, int col, char direction, const 
     // full covering check
     if (direction=='H'){
         int complete_pos = 1;
-        if ((int)strlen(input_word) == length){
+        if ((int)strlen(input_word) == length && length>1){
             for (int r = 0; r < length; r++){
-                if(temp_struct->board[row][col+r] == '.'){
+                if(temp_struct->board[row][col+r] == '.' ){
                     complete_pos = 0;
+                    break;
+                }
+                if (tiles[r]==' '){
+                    complete_pos = 0;
+                    break;
                 }
             }
-            if (complete_pos==1 && length>1){
-                
+            
+            if (complete_pos==1){
                 *num_tiles_placed = 0;
                 return game;
             }
