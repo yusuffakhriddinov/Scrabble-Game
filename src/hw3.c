@@ -536,23 +536,32 @@ GameState* undo_place_tiles(GameState *game) {
 }
 
 void free_game_state(GameState *game) {
-    while(game->top != 0) {
-        game = undo_place_tiles(game);
+    while (game->top != 0) {
+        GameState *next_state = undo_place_tiles(game);
+        
+        // Free the memory associated with the current state
+        for (int i = 0; i < game->rows; i++) {
+            free(game->board[i]);
+            free(game->stack_tiles[i]);
+        }
+        free(game->board);
+        free(game->stack_tiles);
+        free(game);
+        
+        // Move to the next state
+        game = next_state;
     }
-    
-    
+
+    // Free the memory associated with the final state
     for (int i = 0; i < game->rows; i++) {
         free(game->board[i]);
-    }
-    free(game->board);
-        
-    for (int i = 0; i < game->rows; i++) {
         free(game->stack_tiles[i]);
     }
+    free(game->board);
     free(game->stack_tiles);
-
     free(game);
 }
+
 
 void save_game_state(GameState *game, const char *filename) {
     
